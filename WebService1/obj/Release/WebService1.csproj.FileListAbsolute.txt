@@ -1,0 +1,12 @@
+c:\users\administrator\documents\visual studio 2012\Projects\WebService1\WebService1\bin\WebService1.dll
+c:\users\administrator\documents\visual studio 2012\Projects\WebService1\WebService1\bin\WebService1.pdb
+c:\users\administrator\documents\visual studio 2012\Projects\WebService1\WebService1\obj\Release\WebService1.dll
+c:\users\administrator\documents\visual studio 2012\Projects\WebService1\WebService1\obj\Release\WebService1.pdb
+c:\users\administrator\documents\visual studio 2012\Projects\WebService1\WebService1\obj\Release\WebService1.csprojResolveAssemblyReference.cache
+D:\project\WebService1\WebService1\bin\WebService1.dll.config
+D:\project\WebService1\WebService1\bin\WebService1.dll
+D:\project\WebService1\WebService1\bin\WebService1.pdb
+D:\project\WebService1\WebService1\obj\Release\WebService1.csprojResolveAssemblyReference.cache
+D:\project\WebService1\WebService1\obj\Release\WebService1.csproj.CoreCompileInputs.cache
+D:\project\WebService1\WebService1\obj\Release\WebService1.dll
+D:\project\WebService1\WebService1\obj\Release\WebService1.pdb
