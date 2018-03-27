@@ -194,8 +194,8 @@ namespace WebService1
             return dbOperation.getMyFocuses(user_id).ToArray();
         }
         [WebMethod(Description = "插入头像Avatar")]
-        public bool insertAvatarById(string user_id, string base64string) {
-            return dbOperation.insertAvater(user_id, base64string);
+        public bool updateAvatarById(string user_id, string base64string) {
+            return dbOperation.updateAvater(user_id, base64string);
         }
         [WebMethod(Description = "得到头像Avatar的Base64String")]
         public string getAvatarById(string user_id) {

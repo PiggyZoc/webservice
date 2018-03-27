@@ -10,3 +10,10 @@ D:\project\WebService1\WebService1\obj\Release\WebService1.csprojResolveAssembly
 D:\project\WebService1\WebService1\obj\Release\WebService1.csproj.CoreCompileInputs.cache
 D:\project\WebService1\WebService1\obj\Release\WebService1.dll
 D:\project\WebService1\WebService1\obj\Release\WebService1.pdb
+D:\360\webservice\WebService1\bin\WebService1.dll.config
+D:\360\webservice\WebService1\bin\WebService1.dll
+D:\360\webservice\WebService1\bin\WebService1.pdb
+D:\360\webservice\WebService1\obj\Release\WebService1.csprojResolveAssemblyReference.cache
+D:\360\webservice\WebService1\obj\Release\WebService1.csproj.CoreCompileInputs.cache
+D:\360\webservice\WebService1\obj\Release\WebService1.dll
+D:\360\webservice\WebService1\obj\Release\WebService1.pdb

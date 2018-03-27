@@ -123,7 +123,7 @@ namespace WebService1
             try
             {
 
-                string sql = "INSERT INTO test.user_info VALUES(?user_id, ?password,?user_name,?phone,?email);";
+                string sql = "INSERT INTO test.user_info(user_id,password,user_name,phone,email) VALUES(?user_id, ?password,?user_name,?phone,?email);";
                 
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
                 cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
@@ -731,8 +731,8 @@ namespace WebService1
             }
             return list;
         }
-        public bool insertAvater(string user_id, string base64string) {
-            string sql = "INSERT INTO test.avatar VALUES (?user_id,?base64string);";
+        public bool updateAvater(string user_id, string base64string) {
+            string sql = "UPDATE test.avatar SET avatar=?base64string WHERE user_id =?user_id;";
             try {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
                 cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
@@ -747,7 +747,7 @@ namespace WebService1
         }
         public string selectBase64String(string user_id)
         {
-            string sql = "SELECT base64string FROM test.avatar WHERE user_id =?user_id; ";
+            string sql = "SELECT avatar FROM test.user_info WHERE user_id =?user_id; ";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
