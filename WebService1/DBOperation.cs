@@ -732,11 +732,11 @@ namespace WebService1
             return list;
         }
         public bool updateAvater(string user_id, string base64string) {
-            string sql = "UPDATE test.avatar SET avatar=?base64string WHERE user_id =?user_id;";
+            string sql = "UPDATE test.user_info SET avatar=?base64string WHERE user_id =?user_id;";
             try {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
                 cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
-                cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.String)).Value = base64string;
+                cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.Blob)).Value = base64string;
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
                 return true;

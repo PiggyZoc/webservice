@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Services;
 
@@ -194,12 +195,16 @@ namespace WebService1
             return dbOperation.getMyFocuses(user_id).ToArray();
         }
         [WebMethod(Description = "插入头像Avatar")]
-        public bool updateAvatarById(string user_id, string base64string) {
+        public bool insertAvatarById(string user_id, string base64string) {
             return dbOperation.updateAvater(user_id, base64string);
         }
         [WebMethod(Description = "得到头像Avatar的Base64String")]
         public string getAvatarById(string user_id) {
-            return dbOperation.selectBase64String(user_id);
+            string myString=dbOperation.selectBase64String(user_id);
+            byte[] bytes = Encoding.Default.GetBytes(myString);
+            myString = Encoding.UTF8.GetString(bytes);
+            return myString;
+            
         }
         [WebMethod(Description = "判断博文是否被某个用户喜欢")]
         public bool getIsLiked(string blog_id, string user_id) {
