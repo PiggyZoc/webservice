@@ -733,27 +733,30 @@ namespace WebService1
         }
         public bool updateAvater(string user_id, byte[] fileBytes) {
             string sql = "UPDATE test.user_info SET avatar=?base64string WHERE user_id =?user_id;";
+            bool isSuccess = true;
             MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
             cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
             cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.LongBlob)).Value = fileBytes;
             try
             {
                 cmd.ExecuteNonQuery();
-                cmd.Dispose();
-                return true;
-
             } catch (Exception e) {
-                return false;
+                isSuccess = false;
             }
+
+            cmd.Dispose();
+            return isSuccess;
         }
         public string selectBase64String(string user_id)
         {
             string sql = "SELECT avatar FROM test.user_info WHERE user_id =?user_id; ";
+            String result = null;
+            MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+            cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
+            MySqlDataReader dr;
             try
             {
-                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
-                cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value =user_id;
-                MySqlDataReader dr = cmd.ExecuteReader();
+                dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
                     byte[] imageByte = new byte[dr.GetBytes(0, 0, null, 0, int.MaxValue)];
@@ -765,14 +768,17 @@ namespace WebService1
                     imageStream.Position = 0;
                     imageStream.Read(bytes, 0, (int)imageStream.Length);
                     imageStream.Close();
-                    String result = Convert.ToBase64String(bytes);
-                    return result;
+                    result = Convert.ToBase64String(bytes);
                 }
                 dr.Close();
-                cmd.Dispose();
             }
-            catch (Exception e) { }
-            return null;
+            catch (Exception e)
+            {
+
+            }
+
+            cmd.Dispose();
+            return result;
         }
      
     }
