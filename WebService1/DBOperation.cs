@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
- 
+using System.Text;
 
 namespace WebService1
 {
@@ -486,7 +486,7 @@ namespace WebService1
 
         public List<BlogModel> getListBlogs() {
             List<BlogModel> list = new List<BlogModel>();
-            string sql = "SELECT blog_id,title,create_time,user_name FROM test.blogs left join(test.user_info) on (test.blogs.writer_id = test.user_info.user_id);";
+            string sql = "SELECT blog_id,title,create_time,user_name FROM test.blogs left join(test.user_info) on (test.blogs.writer_id = test.user_info.user_id) where title <> '';";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
@@ -499,7 +499,6 @@ namespace WebService1
                     bm.title = reader[1].ToString();
                     bm.Create_time = reader[2].ToString();
                     bm.Writer_name = reader[3].ToString();
-                   
                     list.Add(bm);
 
                 }
@@ -509,6 +508,18 @@ namespace WebService1
             catch (Exception)
             {
 
+            }
+            foreach(BlogModel bm in list)
+            {
+                try
+                {
+                    string myString = selectBase64String(bm.Writer_name);
+                    byte[] bytes = Encoding.Default.GetBytes(myString);
+                    myString = Encoding.UTF8.GetString(bytes);
+                    Console.WriteLine(myString);
+                    bm.base64string = myString;
+                }
+                catch (Exception e) { }
             }
             return list;
         }
