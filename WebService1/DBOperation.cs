@@ -731,12 +731,13 @@ namespace WebService1
             }
             return list;
         }
-        public bool updateAvater(string user_id, string base64string) {
+        public bool updateAvater(string user_id, byte[] fileBytes) {
             string sql = "UPDATE test.user_info SET avatar=?base64string WHERE user_id =?user_id;";
-            try {
-                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
-                cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
-                cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.Blob)).Value = base64string;
+            MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+            cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
+            cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.LongBlob)).Value = fileBytes;
+            try
+            {
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
                 return true;
