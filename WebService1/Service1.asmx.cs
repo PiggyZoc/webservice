@@ -196,16 +196,12 @@ namespace WebService1
         }
         [WebMethod(Description = "插入头像Avatar")]
         public bool insertAvatarById(string user_id, string base64string) {
-            byte[] buffer = Convert.FromBase64String(base64string);
-            return dbOperation.updateAvater(user_id, buffer);
+           /// byte[] buffer = Convert.FromBase64String(base64string);
+            return dbOperation.updateAvater(user_id,base64string);
         }
         [WebMethod(Description = "得到头像Avatar的Base64String")]
         public string getAvatarById(string user_id) {
-            string myString=dbOperation.selectBase64String(user_id);
-            byte[] bytes = Encoding.Default.GetBytes(myString);
-            myString = Encoding.UTF8.GetString(bytes);
-            return myString;
-            
+            return dbOperation.selectBase64String(user_id);         
         }
         [WebMethod(Description = "判断博文是否被某个用户喜欢")]
         public bool getIsLiked(string blog_id, string user_id) {

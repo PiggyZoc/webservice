@@ -486,7 +486,7 @@ namespace WebService1
 
         public List<BlogModel> getListBlogs() {
             List<BlogModel> list = new List<BlogModel>();
-            string sql = "SELECT blog_id,title,create_time,user_name FROM test.blogs left join(test.user_info) on (test.blogs.writer_id = test.user_info.user_id) where title <> '';";
+            string sql = "SELECT blog_id,title,create_time,user_name,avatar FROM test.blogs left join(test.user_info) on (test.blogs.writer_id = test.user_info.user_id) where title <> '';";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
@@ -499,6 +499,18 @@ namespace WebService1
                     bm.title = reader[1].ToString();
                     bm.Create_time = reader[2].ToString();
                     bm.Writer_name = reader[3].ToString();
+                    bm.base64string = reader[4].ToString();
+                    /*byte
+                     * [] imageByte = new byte[reader[4](0, 0, null, 0, int.MaxValue)];
+                    dr.GetBytes(0, 0, imageByte, 0, imageByte.Length);
+                    //将图片字节数组加载入缓冲流 
+                    MemoryStream imageStream = new MemoryStream(imageByte);
+                    byte[] bytes = new byte[imageStream.Length];
+
+                    imageStream.Position = 0;
+                    imageStream.Read(bytes, 0, (int)imageStream.Length);
+                    imageStream.Close();*/
+   
                     list.Add(bm);
 
                 }
@@ -509,19 +521,7 @@ namespace WebService1
             {
 
             }
-            foreach(BlogModel bm in list)
-            {
-                try
-                {
-                    string myString = selectBase64String(bm.Writer_name);
-                    byte[] bytes = Encoding.Default.GetBytes(myString);
-                    myString = Encoding.UTF8.GetString(bytes);
-                    Console.WriteLine(myString);
-                    bm.base64string = myString;
-                }
-                catch (Exception e) { }
-            }
-            return list;
+             return list;
         }
 
         public List<BlogModel> getMyLikeBlogs(string user_id) {
@@ -742,12 +742,12 @@ namespace WebService1
             }
             return list;
         }
-        public bool updateAvater(string user_id, byte[] fileBytes) {
+        public bool updateAvater(string user_id,string avatar) {
             string sql = "UPDATE test.user_info SET avatar=?base64string WHERE user_id =?user_id;";
             bool isSuccess = true;
             MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
             cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
-            cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.LongBlob)).Value = fileBytes;
+            cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.LongText)).Value = avatar;
             try
             {
                 cmd.ExecuteNonQuery();
@@ -770,16 +770,7 @@ namespace WebService1
                 dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
-                    byte[] imageByte = new byte[dr.GetBytes(0, 0, null, 0, int.MaxValue)];
-                    dr.GetBytes(0, 0, imageByte, 0, imageByte.Length);
-                    //将图片字节数组加载入缓冲流 
-                    MemoryStream imageStream = new MemoryStream(imageByte);
-                    byte[] bytes = new byte[imageStream.Length];
-
-                    imageStream.Position = 0;
-                    imageStream.Read(bytes, 0, (int)imageStream.Length);
-                    imageStream.Close();
-                    result = Convert.ToBase64String(bytes);
+                    result = dr[0].ToString();
                 }
                 dr.Close();
             }
