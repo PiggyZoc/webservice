@@ -486,7 +486,7 @@ namespace WebService1
 
         public List<BlogModel> getListBlogs() {
             List<BlogModel> list = new List<BlogModel>();
-            string sql = "SELECT blog_id,title,create_time,user_name,avatar FROM test.blogs left join(test.user_info) on (test.blogs.writer_id = test.user_info.user_id) where title <> '';";
+            string sql = "SELECT test.blogs.blog_id,title,create_time,user_name,avatar,likes ,test.blog_content1.content FROM (test.blogs left join(test.user_info) on(test.blogs.writer_id = test.user_info.user_id)) left join(test.blog_content1) on(test.blogs.blog_id = test.blog_content1.blog_id) where title<> '' and test.blog_content1.pos = 1 limit 5; ";
             try
             {
                 MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
@@ -500,6 +500,8 @@ namespace WebService1
                     bm.Create_time = reader[2].ToString();
                     bm.Writer_name = reader[3].ToString();
                     bm.base64string = reader[4].ToString();
+                    bm.likes = reader[5].ToString();
+                    bm.paragraph = reader[6].ToString();
                     /*byte
                      * [] imageByte = new byte[reader[4](0, 0, null, 0, int.MaxValue)];
                     dr.GetBytes(0, 0, imageByte, 0, imageByte.Length);
@@ -742,12 +744,14 @@ namespace WebService1
             }
             return list;
         }
-        public bool updateAvater(string user_id,string avatar) {
-            string sql = "UPDATE test.user_info SET avatar=?base64string WHERE user_id =?user_id;";
+        public bool updateAvater(string user_id,string avatar,string file_name) {
+            string ToBeInserted = "http://wz66.top:86/UserDirectories/" + user_id + "/" + "avatar" + "/" + file_name;
+            string sql = "UPDATE test.user_info SET avatar=?base64string,avatar_url=?avatar_url WHERE user_id =?user_id;";
             bool isSuccess = true;
             MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
             cmd.Parameters.Add(new MySqlParameter("?user_id", MySqlDbType.String)).Value = user_id;
             cmd.Parameters.Add(new MySqlParameter("?base64string", MySqlDbType.LongText)).Value = avatar;
+            cmd.Parameters.Add(new MySqlParameter("?avatar_url", MySqlDbType.String)).Value = ToBeInserted;
             try
             {
                 cmd.ExecuteNonQuery();

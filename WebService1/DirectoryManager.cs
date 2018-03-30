@@ -22,6 +22,7 @@ namespace WebService1
                 {
                     // Create the directory it does not exist.
                     Directory.CreateDirectory(final);
+                    Directory.CreateDirectory(final + "/" + "avatar");
                   //  File.CreateText(final + @"\myfile.docx");
                     return true;
                 }
@@ -37,15 +38,15 @@ namespace WebService1
             finally { }
             return false;
         }
-        public Boolean saveImageFile(string user_id, string blog_id, string file_name, string base64string) {
-           bool flag1=createImgFile(user_id, blog_id, file_name);
-           bool flag2=saveImage(user_id, blog_id, file_name, base64string);
-            return flag1 && flag2;
+        public Boolean saveImageFile(string user_id, string sub, string file_name, string base64string) {
+           bool flag1=createImgFile(user_id, sub, file_name);
+            bool flag2=saveImage(user_id, sub, file_name, base64string);
+            return flag1&&flag2;
         }
-        public Boolean createImgFile(string user_id,string blog_id,string file_name)
+        public Boolean createImgFile(string user_id,string sub,string file_name)
         {
             string path = @"C:\webservice\UserDirectories";
-            string final = path + "/" + user_id + "/" + blog_id;
+            string final = path + "/" + user_id + "/" + sub;
             try
             {
 
@@ -100,10 +101,10 @@ namespace WebService1
             finally { }
             return false;
         }
-        public Boolean saveImage(string user_id, string blog_id, string file_name,string base64string)
+        public Boolean saveImage(string user_id, string sub, string file_name,string base64string)
         {
             string path = @"C:\webservice\UserDirectories";
-            string final = path + "/" + user_id + "/" + blog_id;
+            string final = path + "/" + user_id + "/" + sub;
             try
             {
                 if (Directory.Exists(final))
@@ -112,12 +113,12 @@ namespace WebService1
                     byte[] arr = Convert.FromBase64String(base64string);
                     MemoryStream ms = new MemoryStream(arr);
                     Bitmap bmp = new Bitmap(ms);
-
                     bmp.Save(filepath, System.Drawing.Imaging.ImageFormat.Jpeg);
                     ms.Close();
                     return true;
 
                 }
+             
             }
             catch (Exception e)
             {

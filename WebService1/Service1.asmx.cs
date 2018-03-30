@@ -195,9 +195,10 @@ namespace WebService1
             return dbOperation.getMyFocuses(user_id).ToArray();
         }
         [WebMethod(Description = "插入头像Avatar")]
-        public bool insertAvatarById(string user_id, string base64string) {
-           /// byte[] buffer = Convert.FromBase64String(base64string);
-            return dbOperation.updateAvater(user_id,base64string);
+        public bool insertAvatarById(string user_id, string base64string,string file_name) {
+            /// byte[] buffer = Convert.FromBase64String(base64string);
+            string subfolder = "avatar";
+            return dbOperation.updateAvater(user_id, base64string, file_name)&&directoryManager.saveImageFile(user_id,subfolder,file_name,base64string);
         }
         [WebMethod(Description = "得到头像Avatar的Base64String")]
         public string getAvatarById(string user_id) {

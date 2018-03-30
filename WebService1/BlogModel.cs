@@ -13,6 +13,7 @@ namespace WebService1
         public String Writer_name;
         public String Create_time;
         public String base64string;
+        public String likes;
         public String paragraph;
     }
 }
