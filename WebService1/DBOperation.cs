@@ -12,7 +12,7 @@ namespace WebService1
         public static MySqlConnection sqlCon;  //用于连接数据库  
 
         //将下面的引号之间的内容换成上面记录下的属性中的连接字符串  
-        private String ConServerStr = @"server=wz66.top;user id=piggy;password=888666;Port=3306;database=test;";
+        private String ConServerStr = @"server=47.100.46.16;user id=piggy;password=888666;Port=3306;database=test;";
 
         //默认构造函数  
         public DBOperation()
@@ -784,7 +784,57 @@ namespace WebService1
             cmd.Dispose();
             return result;
         }
-     
-    }
+
+
+
+        public int hun_login(string userName, string psd)
+        {
+            string sql = "SELECT identity FROM test.hunter_user "
+               + "WHERE user_name =?user_name "
+               + "AND password =?psd; ";
+
+            int result = 0;
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+                cmd.Parameters.Add(new MySqlParameter("?user_name", MySqlDbType.String)).Value = userName;
+                cmd.Parameters.Add(new MySqlParameter("?psd", MySqlDbType.String)).Value = psd;
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetInt16(0);
+                }
+                reader.Close();
+                cmd.Dispose();
+            }
+            catch (Exception e) { }
+            return result;
+        }
+
+
+        public string hun_register(string userName, string psd, long phone)
+        {
+            string sql = "insert test.hunter_user(user_name,password,phone) " +
+                "values(?userName, ?psd, ?phone);";
+
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+                cmd.Parameters.Add(new MySqlParameter("?userName", MySqlDbType.String)).Value = userName;
+                cmd.Parameters.Add(new MySqlParameter("?psd", MySqlDbType.String)).Value = psd;
+                cmd.Parameters.Add(new MySqlParameter("?phone", MySqlDbType.Int64)).Value = phone;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return "注册成功";
+
+            }
+            catch (Exception e)
+            {
+                return "用户名已存在";
+            }
+        }
+
+    
+}
    
 }

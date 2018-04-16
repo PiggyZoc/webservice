@@ -208,5 +208,17 @@ namespace WebService1
         public bool getIsLiked(string blog_id, string user_id) {
             return dbOperation.isTheBlogLiked(blog_id, user_id);
         }
+
+        [WebMethod(Description = "hun_注册*******")]
+        public string hun_register(string userName, string psd, long phone)
+        {
+            return dbOperation.hun_register(userName, psd, phone);
+        }
+
+        [WebMethod(Description = "hun_登录*******")]
+        public int hun_login(string userName, string psd)
+        {
+            return dbOperation.hun_login(userName, psd);
+        }
     }
 }
