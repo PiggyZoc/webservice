@@ -210,15 +210,23 @@ namespace WebService1
         }
 
         [WebMethod(Description = "hun_注册*******")]
-        public string hun_register(string userName, string psd, long phone)
+        public string[] hun_register(string userName, string psd, long phone)
         {
-            return dbOperation.hun_register(userName, psd, phone);
+            List<string> list = new List<string>();
+            list.Add(
+                dbOperation.hun_register(userName, psd, phone).ToString()
+                );
+            return list.ToArray();            
         }
 
         [WebMethod(Description = "hun_登录*******")]
-        public int hun_login(string userName, string psd)
+        public string[] hun_login(string userName, string psd)
         {
-            return dbOperation.hun_login(userName, psd);
+            List<string> list = new List<string>();
+            list.Add(
+                dbOperation.hun_login(userName, psd).ToString()
+                );
+            return list.ToArray();
         }
 
         [WebMethod(Description = "hun_查看任务*******")]
@@ -228,29 +236,45 @@ namespace WebService1
         }
 
         [WebMethod(Description = "hun_发布任务*******")]
-        public string hun_assignTask(string userName, int areaid, string summarize, string detail, string photo, float reward)
+        public string[] hun_assignTask(string userName, int areaid, string summarize, string detail, string photo, float reward)
         {
-            return hun_assignTask(userName, areaid, summarize, detail, photo, reward);
+            List<string> list = new List<string>();
+            list.Add(
+                hun_assignTask(userName, areaid, summarize, detail, photo, reward).ToString()
+                );
+            return list.ToArray();
         }
 
         [WebMethod(Description = "hun_取消任务*******")]
-        public string hun_cancelTask(int taskid)
+        public string[] hun_cancelTask(int taskid)
         {
-            return hun_cancelTask(taskid);
+            List<string> list = new List<string>();
+            list.Add(
+                hun_cancelTask(taskid).ToString()
+                );
+            return list.ToArray();
         }
 
 
         [WebMethod(Description = "hun_开始任务*******")]
-        public string hun_startTask(int taskid)
+        public string[] hun_startTask(int taskid)
         {
-            return hun_startTask(taskid);
+            List<string> list = new List<string>();
+            list.Add(
+                hun_startTask(taskid).ToString()
+                );
+            return list.ToArray();
         }
 
 
         [WebMethod(Description = "hun_任务完成*******")]
-        public string hun_finishTask(int taskid)
+        public string[] hun_finishTask(int taskid)
         {
-            return hun_finishTask(taskid);
+            List<string> list = new List<string>();
+            list.Add(
+                hun_finishTask(taskid).ToString()
+                );
+            return list.ToArray();
         }
     }
 }

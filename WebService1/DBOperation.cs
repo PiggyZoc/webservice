@@ -859,8 +859,8 @@ namespace WebService1
                 cmd.Dispose();
             }
             catch (Exception e) {
-                list.Add("webServiceError");
-                list.Add("未连接网络");
+              //  list.Add("webServiceError");
+                //list.Add("未连接网络");
             }
             return list;
         }
