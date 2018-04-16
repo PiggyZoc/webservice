@@ -814,8 +814,8 @@ namespace WebService1
 
         public string hun_register(string userName, string psd, long phone)
         {
-            string sql = "insert test.hunter_user(user_name,password,phone) " +
-                "values(?userName, ?psd, ?phone);";
+            string sql = "insert test.hunter_user(user_name,password,phone,identity,money) " +
+                "values(?userName, ?psd, ?phone, ?identity, ?money);";
 
             try
             {
@@ -823,6 +823,8 @@ namespace WebService1
                 cmd.Parameters.Add(new MySqlParameter("?userName", MySqlDbType.String)).Value = userName;
                 cmd.Parameters.Add(new MySqlParameter("?psd", MySqlDbType.String)).Value = psd;
                 cmd.Parameters.Add(new MySqlParameter("?phone", MySqlDbType.Int64)).Value = phone;
+                cmd.Parameters.Add(new MySqlParameter("?identity", MySqlDbType.Int16)).Value = 1;
+                cmd.Parameters.Add(new MySqlParameter("?money", MySqlDbType.Float)).Value = 0.0;
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
                 return "注册成功";
@@ -834,7 +836,125 @@ namespace WebService1
             }
         }
 
-    
-}
+
+        public List<string> hun_showTask(string userName, int page)
+        {
+            string sql = "SELECT taskid, summarize, state, launchTime, reward FROM test.hunter_task "
+               + "WHERE user_name =?user_name "
+               + "limit ?start, ?end; ";
+            List<string> list = new List<string>();
+            
+            try
+            {
+
+                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                String rs = null;
+                while (reader.Read())
+                {
+                    rs = reader[0].ToString();
+                    list.Add(rs);
+                }
+                reader.Close();
+                cmd.Dispose();
+            }
+            catch (Exception e) {
+                list.Add("webServiceError");
+                list.Add("未连接网络");
+            }
+            return list;
+        }
+
+
+        public string hun_assignTask(string userName, int areaid, string summarize, string detail, string photo, float reward)
+        {
+            string sql = "insert test.hunter_task(launcherName,areaid,summarize,detail,photo,reward,state) " +
+                "values(?launcherName, ?areaid, ?summarize, ?detail, ?photo, ?reward, ?state); ";
+
+            try
+            {
+
+                MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+                cmd.Parameters.Add(new MySqlParameter("?launcherName", MySqlDbType.String)).Value = userName;
+                cmd.Parameters.Add(new MySqlParameter("?areaid", MySqlDbType.Int16)).Value = areaid;
+                cmd.Parameters.Add(new MySqlParameter("?summarize", MySqlDbType.String)).Value = summarize;
+                cmd.Parameters.Add(new MySqlParameter("?detail", MySqlDbType.LongText)).Value = detail;
+                cmd.Parameters.Add(new MySqlParameter("?photo", MySqlDbType.LongText)).Value = photo;
+                cmd.Parameters.Add(new MySqlParameter("?reward", MySqlDbType.Float)).Value = reward;
+                cmd.Parameters.Add(new MySqlParameter("?state", MySqlDbType.Int16)).Value = 3;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return "发布成功";
+            }
+            catch (Exception e)
+            {
+                return "发布失败";
+            }
+        }
+
+
+        public string hun_cancelTask(int taskid)
+        {
+            string sql = "UPDATE test.user_task SET state = 6 WHERE taskid =?taskid;";
+            bool isSuccess = true;
+            MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+            cmd.Parameters.Add(new MySqlParameter("?taskid", MySqlDbType.String)).Value = taskid;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
+
+            cmd.Dispose();
+            if (isSuccess)
+                return "成功";
+            return "失败";
+        }
+
+        public string hun_startTask(int taskid)
+        {
+            string sql = "UPDATE test.user_task SET state = 1 WHERE taskid =?taskid;";
+            bool isSuccess = true;
+            MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+            cmd.Parameters.Add(new MySqlParameter("?taskid", MySqlDbType.String)).Value = taskid;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
+
+            cmd.Dispose();
+            if (isSuccess)
+                return "成功";
+            return "失败";
+        }
+
+        public string hun_finishTask(int taskid)
+        {
+            string sql = "UPDATE test.user_task SET state = 5 WHERE taskid =?taskid;";
+            bool isSuccess = true;
+            MySqlCommand cmd = new MySqlCommand(sql, sqlCon);
+            cmd.Parameters.Add(new MySqlParameter("?taskid", MySqlDbType.String)).Value = taskid;
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
+
+            cmd.Dispose();
+            if (isSuccess)
+                return "成功";
+            return "失败";
+        }
+    }
    
 }

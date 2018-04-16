@@ -220,5 +220,37 @@ namespace WebService1
         {
             return dbOperation.hun_login(userName, psd);
         }
+
+        [WebMethod(Description = "hun_查看任务*******")]
+        public string[] hun_showTask(string userName, int page)
+        {
+            return dbOperation.hun_showTask(userName, page).ToArray();
+        }
+
+        [WebMethod(Description = "hun_发布任务*******")]
+        public string hun_assignTask(string userName, int areaid, string summarize, string detail, string photo, float reward)
+        {
+            return hun_assignTask(userName, areaid, summarize, detail, photo, reward);
+        }
+
+        [WebMethod(Description = "hun_取消任务*******")]
+        public string hun_cancelTask(int taskid)
+        {
+            return hun_cancelTask(taskid);
+        }
+
+
+        [WebMethod(Description = "hun_开始任务*******")]
+        public string hun_startTask(int taskid)
+        {
+            return hun_startTask(taskid);
+        }
+
+
+        [WebMethod(Description = "hun_任务完成*******")]
+        public string hun_finishTask(int taskid)
+        {
+            return hun_finishTask(taskid);
+        }
     }
 }
